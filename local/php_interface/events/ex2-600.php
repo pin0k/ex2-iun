@@ -50,6 +50,28 @@ class Ex2_600 {
                     ),
                 ));
             }
+
+            if($_POST['user_info_event'] == "Y") {
+                $classORM = CUserFieldEnum::GetList(
+                    [],
+                    [
+                        'ID' => $arFields['UF_USER_CLASS']
+                    ]
+                )->Fetch();
+                Event::send(array(
+                    "EVENT_NAME" => "USER_INFO",
+                    "LID" => $arFields['LID'],
+                    "C_FIELDS" => array(
+                        'NAME' => $arFields['NAME'],
+                        'LAST_NAME' => $arFields['LAST_NAME'],
+                        'ID' => $arFields['ID'], 
+                        'MESSAGE' => 'Администратор сайта изменил ваши регистрационные данные',
+                        'STATUS' => ($arFields['ACTIVE'] == 'Y') ? 'Активен' : 'Не активен',
+                        'LOGIN' => $arFields['LOGIN'],
+                        'CLASS' => $classORM['VALUE'],
+                    ),
+                )); 
+            }
         }
 	}
 }
